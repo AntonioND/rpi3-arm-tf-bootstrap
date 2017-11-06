@@ -15,8 +15,14 @@
 #define MACHID				3138
 #define KERNEL_ADDRESS			0x01000000
 #define DEVICE_TREE_ADDRESS		0x02000000
-/* Each CPU uses a 16-byte entry, the first 32 bit are the entrypoint. */
-#define MAILBOX				0x400000CC
+
+/*
+ * Mailbox addresses
+ */
+#define CORE0_MBOX3_RDCLR		0x400000CC
+#define CORE1_MBOX3_RDCLR		0x400000DC
+#define CORE2_MBOX3_RDCLR		0x400000EC
+#define CORE3_MBOX3_RDCLR		0x400000FC
 
 /*
  * When this image is called, r0 contains the mpidr of this CPU. Save it to a
@@ -29,17 +35,13 @@ _start:
 	bne	panic
 
 	/* Clear kernel mailbox */
-	ldr	r0, =0x000000D8
-	mov	r2, #0
-	mov	r3, #0
-	strd	r2, r3, [r0, #0x0]
-	strd	r2, r3, [r0, #0x8]
-	strd	r2, r3, [r0, #0x10]
-	strd	r2, r3, [r0, #0x18]
-	strd	r2, r3, [r0, #0x20]
-	strd	r2, r3, [r0, #0x28]
-	strd	r2, r3, [r0, #0x30]
-	strd	r2, r3, [r0, #0x38]
+	mov	r2, #0xFFFFFFFF
+        /* Writing ones clears the bits. */
+	ldr	r0, =CORE0_MBOX3_RDCLR
+	str	r2, [r0, #0x0]
+	str	r2, [r0, #0x10]
+	str	r2, [r0, #0x20]
+	str	r2, [r0, #0x30]
 
 	/* Turn on all secondary CPUs */
 	ldr	r0, =PSCI_CPU_ON_AARCH32
@@ -74,7 +76,7 @@ _start:
  */
 wait_mailbox:
 	/* Get address of the mailbox */
-	ldr	r0, =MAILBOX
+	ldr	r0, =CORE0_MBOX3_RDCLR
 	mrc	p15, #0, r1, c0, c0, #5 /* Read MPIDR */
 	lsl	r1, r1, #4
 	add	r0, r0, r1
@@ -89,7 +91,7 @@ wait_loop:
 wait_end:
 
 	/* Clear mailbox */
-	mov	r2, #0
+	mov	r2, #0xFFFFFFFF
 	str	r2, [r0]
 	/* Jump to the provided address */
 	bx	r1
