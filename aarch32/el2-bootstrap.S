@@ -31,7 +31,7 @@
 .globl _start
 _start:
 	/* TODO : CPU OFF if not CPU0 */
-	ands	r0, r6, #0x3
+	ands	r0, r0, #0x3
 	bne	panic
 
 	/* Clear kernel mailbox */
