@@ -25,18 +25,18 @@
 #define CORE3_MBOX3_RDCLR		0x400000FC
 
 /*
- * When this image is called, r0 contains the mpidr of this CPU. Save it to a
- * register that is calee-saved according to AAPCS. Only CPU0 should jump here.
+ * When this image is called, r0 contains the mpidr of this CPU. Only CPU0
+ * should jump here.
  */
 .globl _start
 _start:
-	/* TODO : CPU OFF if not CPU0 */
+	/* TODO : Turn CPU off if this isn't CPU0. */
 	ands	r0, r0, #0x3
 	bne	panic
 
 	/* Clear kernel mailbox */
 	mov	r2, #0xFFFFFFFF
-        /* Writing ones clears the bits. */
+	/* Writing ones clears the bits. */
 	ldr	r0, =CORE0_MBOX3_RDCLR
 	str	r2, [r0, #0x0]
 	str	r2, [r0, #0x10]
