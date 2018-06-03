@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Copyright (c) 2017-2018, Antonio Niño Díaz <antonio_nd@outlook.com>
+#
+# SPDX-License-Identifier: MIT
+#
 
 set -e
 set -x

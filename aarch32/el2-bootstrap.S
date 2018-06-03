@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2017, Antonio Niño Díaz <antonio_nd@outlook.com>
+ * Copyright (c) 2017-2018, Antonio Niño Díaz <antonio_nd@outlook.com>
  *
- * SPDX-License-Identifier: BSD-3-Clause
+ * SPDX-License-Identifier: MIT
  */
 
 /*

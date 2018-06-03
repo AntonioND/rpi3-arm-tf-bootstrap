@@ -43,6 +43,8 @@ they don't match the ones you are using, change them to the ones you need.
 This bootstrap has been created by imitating the behaviour of the default
 `AArch32 stub`_ and `AArch64 stub`_ used by the VideoCore loader.
 
+The code of this repository is licensed under the terms of the MIT license.
+
 .. _Trusted Firmware-A: https://github.com/ARM-software/arm-trusted-firmware
 .. _AArch32 stub: https://github.com/raspberrypi/tools/blob/master/armstubs/armstub7.S
 .. _AArch64 stub: https://github.com/raspberrypi/tools/blob/master/armstubs/armstub8.S
