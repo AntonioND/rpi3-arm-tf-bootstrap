@@ -1,0 +1,94 @@
+From fb3ff008cb76d0f8e63ccd9ff5969000bc0a236d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Antonio=20Ni=C3=B1o=20D=C3=ADaz?= <antonio_nd@outlook.com>
+Date: Sat, 14 Jul 2018 23:08:12 +0100
+Subject: [PATCH] rpi3: Enable PSCI support
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Signed-off-by: Antonio Niño Díaz <antonio_nd@outlook.com>
+---
+ arch/arm/boot/dts/bcm2837.dtsi    | 18 +++++++++---------
+ arch/arm/configs/bcmrpi_defconfig |  5 +++--
+ 2 files changed, 12 insertions(+), 11 deletions(-)
+
+diff --git a/arch/arm/boot/dts/bcm2837.dtsi b/arch/arm/boot/dts/bcm2837.dtsi
+index bc1cca5cf..5abec09a9 100644
+--- a/arch/arm/boot/dts/bcm2837.dtsi
++++ b/arch/arm/boot/dts/bcm2837.dtsi
+@@ -30,40 +30,40 @@
+ 	cpus: cpus {
+ 		#address-cells = <1>;
+ 		#size-cells = <0>;
+-		enable-method = "brcm,bcm2836-smp"; // for ARM 32-bit
+ 
+ 		cpu0: cpu@0 {
+ 			device_type = "cpu";
+ 			compatible = "arm,cortex-a53";
+ 			reg = <0>;
+-			enable-method = "spin-table";
+-			cpu-release-addr = <0x0 0x000000d8>;
++			enable-method = "psci";
+ 		};
+ 
+ 		cpu1: cpu@1 {
+ 			device_type = "cpu";
+ 			compatible = "arm,cortex-a53";
+ 			reg = <1>;
+-			enable-method = "spin-table";
+-			cpu-release-addr = <0x0 0x000000e0>;
++			enable-method = "psci";
+ 		};
+ 
+ 		cpu2: cpu@2 {
+ 			device_type = "cpu";
+ 			compatible = "arm,cortex-a53";
+ 			reg = <2>;
+-			enable-method = "spin-table";
+-			cpu-release-addr = <0x0 0x000000e8>;
++			enable-method = "psci";
+ 		};
+ 
+ 		cpu3: cpu@3 {
+ 			device_type = "cpu";
+ 			compatible = "arm,cortex-a53";
+ 			reg = <3>;
+-			enable-method = "spin-table";
+-			cpu-release-addr = <0x0 0x000000f0>;
++			enable-method = "psci";
+ 		};
+ 	};
++
++	psci {
++		compatible = "arm,psci-1.0", "arm,psci-0.2";
++		method = "smc";
++	};
+ };
+ 
+ /* Make the BCM2835-style global interrupt controller be a child of the
+diff --git a/arch/arm/configs/bcmrpi_defconfig b/arch/arm/configs/bcmrpi_defconfig
+index ed2ddc8d8..9a3c293a2 100644
+--- a/arch/arm/configs/bcmrpi_defconfig
++++ b/arch/arm/configs/bcmrpi_defconfig
+@@ -35,8 +35,7 @@ CONFIG_BLK_DEV_THROTTLING=y
+ CONFIG_PARTITION_ADVANCED=y
+ CONFIG_MAC_PARTITION=y
+ CONFIG_CFQ_GROUP_IOSCHED=y
+-CONFIG_ARCH_MULTI_V6=y
+-# CONFIG_ARCH_MULTI_V7 is not set
++CONFIG_ARCH_MULTI_V7
+ CONFIG_ARCH_BCM=y
+ CONFIG_ARCH_BCM2835=y
+ # CONFIG_CACHE_L2X0 is not set
+@@ -52,6 +51,8 @@ CONFIG_SECCOMP=y
+ # CONFIG_ATAGS is not set
+ CONFIG_ZBOOT_ROM_TEXT=0x0
+ CONFIG_ZBOOT_ROM_BSS=0x0
++CONFIG_ARM_PSCI=y
++CONFIG_HAVE_ARM_SCMCCC=y
+ CONFIG_CMDLINE="console=ttyAMA0,115200 kgdboc=ttyAMA0,115200 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait"
+ CONFIG_CPU_FREQ=y
+ CONFIG_CPU_FREQ_STAT=y
+-- 
+2.18.0
+
