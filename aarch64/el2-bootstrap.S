@@ -12,8 +12,8 @@
 /*
  * Kernel constants
  */
-#define KERNEL_ADDRESS			0x01000000
-#define DEVICE_TREE_ADDRESS		0x02000000
+#define DEVICE_TREE_ADDRESS		0x01000000
+#define KERNEL_ADDRESS			0x02000000
 /* Each entry is 64-bit wide. */
 #define MAILBOX				0x000000D8
 

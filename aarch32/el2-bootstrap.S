@@ -13,8 +13,8 @@
  * Kernel constants
  */
 #define MACHID				3138
-#define KERNEL_ADDRESS			0x01000000
-#define DEVICE_TREE_ADDRESS		0x02000000
+#define DEVICE_TREE_ADDRESS		0x01000000
+#define KERNEL_ADDRESS			0x02000000
 
 /*
  * Mailbox addresses
